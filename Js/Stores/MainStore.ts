@@ -19,6 +19,7 @@ export class MainStore {
   employeeList: EmployeeInfo[];
   oldCollegues: number[];
   modalState: ModalState;
+  showErrors: boolean;
 
   private readonly unsavedChangesWillLost = 'Все внесенные изменения будут потеряны';
   private readonly deleteEmployeeText = 'Сотрудник будет удалён';
@@ -56,6 +57,7 @@ export class MainStore {
   }
 
   setEditingEmployee(emp: EmployeeInfo): void {
+    this.showErrors = false;
     this.hasChages = false;
     this.isNew = false;
     this.editingEmployee = {...emp};
@@ -75,9 +77,14 @@ export class MainStore {
       isFired: false
     };
 
+    this.showErrors = false;
     this.hasChages = false;
     this.isNew = true;
     this.editingEmployee = editingEmployee;
+  }
+
+  enableShowErrors(): void {
+    this.showErrors = true;
   }
 
   addNewEmployeeAction(): void {
@@ -179,6 +186,7 @@ export class MainStore {
     this.hasChages = false;
     this.editingEmployee = null;
     this.isNew = false;
+    this.showErrors = false;
   }
 
   addNewAttribute(attr: AdditionalAttribute): void {

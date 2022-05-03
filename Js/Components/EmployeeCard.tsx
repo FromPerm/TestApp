@@ -22,6 +22,7 @@ interface EmployeeCardState {
 @inject('mainStore')
 @observer
 export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState> {
+	private readonly fieldErrorText = 'Поле не может быть пустым';
 	
 	constructor(props: any) {
 		super(props);
@@ -33,7 +34,6 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 		this.onBirthDateChanged = this.onBirthDateChanged.bind(this);
 		this.onFullNameBlur = this.onFullNameBlur.bind(this);
 		this.onPositionBlur = this.onPositionBlur.bind(this);
-		this.save = this.save.bind(this);
 		this.state = {
 			positions: [],
 			sexValues: [
@@ -115,25 +115,6 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 		store.setEditingEmployeeAttribute({...store.editingEmployee, collegues: values.map(v => Number(v)) });
 	}
 
-	private save(): void {
-		let hasErorrs = false;
-		if (!this.validateFullName()) {
-			this.onFullNameBlur();
-			hasErorrs = true;
-		}
-
-		if (!this.validatePosition()) {
-			this.onPositionBlur();
-			hasErorrs = true;
-		}
-
-		if (hasErorrs) {
-			return;
-		}
-
-		this.props.mainStore.saveEmployee();
-	}
-
 	render() {
 		const store = this.props.mainStore;
 		const editingEmployee = store.editingEmployee;
@@ -151,6 +132,9 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 				}
 		});
 
+		const fullNameError = store.showErrors && !editingEmployee.fullName ? this.fieldErrorText : this.state.fullNameError;
+		const positionError = store.showErrors && !editingEmployee.position ? this.fieldErrorText : this.state.positionError; 
+
 		return (
 			<Box
 				component="form"
@@ -166,7 +150,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						value={editingEmployee.fullName} 
 						onChange={this.onFullNameChanged}
 						onBlur={this.onFullNameBlur}
-						errorText={this.state.fullNameError}
+						errorText={fullNameError}
 						></TextInputControl>
 					<SelectControl 
 						title='Должность*' 
@@ -174,7 +158,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						values={this.state.positions} 
 						onChange={this.onPositionChanged}
 						onBlur={this.onPositionBlur}
-						errorText={this.state.positionError}
+						errorText={positionError}
 						></SelectControl>
 					<DatePickerControl 
 						title='Дата рождения'
@@ -206,9 +190,6 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 					<Stack sx={{ marginBottom: '15px' }}>
 						<AttributeEditor></AttributeEditor>
 					</Stack>
-					<Button onClick={this.save} disabled={!this.props.mainStore.hasChages}>Сохранить</Button>
-					{!store.isNew ? <Button onClick={() => {this.props.mainStore.deleteEmployeeAction()}}>Удалить</Button> : null}
-					<Button onClick={() => {this.props.mainStore.cancelEditingAction()}}>Отмена</Button>
 				</Paper>
 			</Box>
 		);

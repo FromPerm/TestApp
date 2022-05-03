@@ -39,10 +39,6 @@ export class EmployeeList extends React.Component<StoreProps> {
 
 		return (
 			<Paper className='emp-paper'>
-				<Stack direction="row" spacing={2}>
-					<Button variant="contained" onClick={() => {store.addNewEmployeeAction()}}>Добавить</Button>
-					<Button variant='contained' onClick={() => {store.loadEmployeeListAction()}}>Обновить</Button>
-				</Stack>
 				{ store.employeeList?.length || store.isNew ?
 				<List component="nav">
 					{store.employeeList.map((emp) => {
