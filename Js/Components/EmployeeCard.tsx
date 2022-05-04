@@ -15,8 +15,6 @@ import { AttributeEditor } from './AttributeEditor';
 interface EmployeeCardState {
 	positions: string[];
 	sexValues: RadioControlValues[];
-	fullNameError: string;
-	positionError: string;
 }
 
 @inject('mainStore')
@@ -39,9 +37,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 			sexValues: [
 				{ value: 'male', name: 'Муж' },
 				{ value: 'female', name: 'Жен' }
-			],
-			fullNameError: '',
-			positionError: ''
+			]
 		}
 	}
 
@@ -55,27 +51,19 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 		store.setEditingEmployeeAttribute({...store.editingEmployee, fullName: value });
 
 		if (!value) {
-			this.setState({ fullNameError: 'Поле не может быть пустым' });
-		} else {
-			if (this.state.fullNameError) {
-				this.setState({ fullNameError: '' });
-			}
+			store.enableShowFullNameError();
 		}
 	}
 
 	private onFullNameBlur(): void {
 		if (!this.validateFullName()) {
-			this.setState({ fullNameError: 'Поле не может быть пустым' });
-		} else if (this.state.fullNameError) {
-			this.setState({ fullNameError: '' });
+			this.props.mainStore.enableShowFullNameError();
 		}
 	}
 
 	private onPositionBlur(): void {
 		if (!this.validatePosition()) {
-			this.setState({ positionError: 'Поле не может быть пустым' });
-		} else if (this.state.positionError) {
-			this.setState({ positionError: '' });
+			this.props.mainStore.enableShowPositionError();
 		}
 	}
 
@@ -91,7 +79,6 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 
 	private onPositionChanged(pos: string) {
 		const store = this.props.mainStore; 
-		this.setState({ positionError: '' });
 		store.setEditingEmployeeAttribute({...store.editingEmployee, position: pos });
 	}
 
@@ -132,8 +119,8 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 				}
 		});
 
-		const fullNameError = store.showErrors && !editingEmployee.fullName ? this.fieldErrorText : this.state.fullNameError;
-		const positionError = store.showErrors && !editingEmployee.position ? this.fieldErrorText : this.state.positionError; 
+		const fullNameError = store.showNameError && !editingEmployee.fullName ? this.fieldErrorText : '';
+		const positionError = store.showPositionError && !editingEmployee.position ? this.fieldErrorText : ''; 
 
 		return (
 			<Box
