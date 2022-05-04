@@ -138,7 +138,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						onChange={this.onFullNameChanged}
 						onBlur={this.onFullNameBlur}
 						errorText={fullNameError}
-						isFocused={true}
+						isFocused={!store.hasChages}
 						></TextInputControl>
 					<SelectControl 
 						title='Должность*' 
