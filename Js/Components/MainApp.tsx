@@ -47,8 +47,8 @@ export class MainApp extends React.Component<StoreProps> {
 					aria-labelledby="modal-modal-title"
 					aria-describedby="modal-modal-description"
 					>
-					<Paper className='modal-box' sx={{ padding: '15px' }}>
-						<Typography id="modal-modal-title" variant="h6" component="h2">
+					<Paper className='modal-box' sx={{ padding: '30px' }}>
+						<Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: '10px' }}>
 						{modalState?.title || ''}
 						</Typography>
 						<Button onClick={() => {this.props.mainStore.hideModal()}}>Отмена</Button>

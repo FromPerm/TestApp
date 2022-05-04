@@ -23,7 +23,7 @@ export class MainStore {
   showPositionError: boolean;
 
   private readonly unsavedChangesWillLost = 'Все внесенные изменения будут потеряны';
-  private readonly deleteEmployeeText = 'Сотрудник будет удалён';
+  private readonly deleteEmployeeText = 'Удалить выбранного сотрудника?';
 
   constructor() {
     makeAutoObservable(this);

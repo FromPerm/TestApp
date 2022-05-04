@@ -138,6 +138,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						onChange={this.onFullNameChanged}
 						onBlur={this.onFullNameBlur}
 						errorText={fullNameError}
+						isFocused={true}
 						></TextInputControl>
 					<SelectControl 
 						title='Должность*' 

@@ -7,6 +7,7 @@ interface TextInputProps {
 	onChange: (value: string) => void;
 	errorText?: string;
 	onBlur?: () => void;
+	isFocused?: boolean;
 }
 
 export class TextInputControl extends React.Component<TextInputProps> {
@@ -15,6 +16,7 @@ export class TextInputControl extends React.Component<TextInputProps> {
 		return (
 			<Stack>
 				<TextField
+					inputRef={input => input && this.props.isFocused && input.focus()}
 					error={Boolean(this.props.errorText)}
 					label={this.props.title}
 					value={this.props.value || ''}
