@@ -120,7 +120,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 		const editingEmployee = store.editingEmployee;
 		
 		if (!editingEmployee) {
-			return (<Stack className='bold-font'>Выберите сотрудника</Stack>);
+			return null;
 		}
 
 		const collegues = this.props.mainStore.employeeList
@@ -164,6 +164,7 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						title='Дата рождения'
 						value={editingEmployee.birthDate}
 						onChange={this.onBirthDateChanged}
+						maxDate={new Date()}
 						></DatePickerControl>
 					<RadioControl
 						title='Пол'
@@ -184,9 +185,6 @@ export class EmployeeCard extends React.Component<StoreProps, EmployeeCardState>
 						onChange={this.onColleguesChanged}
 						></MultiSelectControl>
 					: null}
-					<Stack className='bold-font' sx={{m:1, marginBottom: '10px'}}>
-						Дополнительные аттрибуты:
-					</Stack>
 					<Stack sx={{ marginBottom: '15px' }}>
 						<AttributeEditor></AttributeEditor>
 					</Stack>

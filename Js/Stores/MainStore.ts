@@ -149,8 +149,35 @@ export class MainStore {
     }
   }
 
+  private validateEditingEmployee(): boolean {
+    const emp = this.editingEmployee;
+    if (!emp || !emp.fullName || !emp.position) {
+			return false;
+		}
+
+    if (emp.birthDate && (isNaN(emp.birthDate.getDate()) || emp.birthDate > new Date())) {
+      return false;
+    }
+
+    if (emp.additionalAttributes?.find(at => 
+      at.type === "дата" 
+      && at.value 
+      && isNaN((at.value as Date).getDate()))
+      ) {
+      return false;
+    }
+
+    return true;
+  }
+
   saveEmployee(): void {
     const editingEmployee = { ...this.editingEmployee };
+
+		if (!this.validateEditingEmployee()) {
+			this.showErrors = true;
+			return;
+		}
+
     const foundIndex = this.employeeList.findIndex(p => p.id === editingEmployee.id);
     if (foundIndex === -1) {
       this.employeeList.push(editingEmployee);

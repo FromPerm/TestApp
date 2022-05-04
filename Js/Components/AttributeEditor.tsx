@@ -104,6 +104,9 @@ export class AttributeEditor extends React.Component<StoreProps, AttributeEditor
 		const store = this.props.mainStore;
 		return (
 			<Stack>
+				<Stack className='bold-font' sx={{m:1, marginBottom: 0}}>
+					Дополнительные аттрибуты:
+				</Stack>
 				<List component="nav">
 					{store.editingEmployee.additionalAttributes?.map((attr) => {
 						return <ListItem
@@ -118,7 +121,7 @@ export class AttributeEditor extends React.Component<StoreProps, AttributeEditor
 							</ListItem>
 					})}
 				</List>
-				<Button variant="outlined" onClick={this.showModal}>Добавить</Button>
+				<Button variant="outlined" onClick={this.showModal}>Добавить новый аттрибут</Button>
 
 				<Modal
 					open={Boolean(this.state.newAttribute)}
@@ -136,7 +139,7 @@ export class AttributeEditor extends React.Component<StoreProps, AttributeEditor
 						>
 							<Stack>
 								<TextInputControl
-									title='Название'
+									title='Название*'
 									value={this.state.newAttribute?.name}
 									onChange={this.setAttributeName}
 									errorText={this.state.nameError}

@@ -39,6 +39,9 @@ export class EmployeeList extends React.Component<StoreProps> {
 
 		return (
 			<Paper className='emp-paper'>
+				<Stack sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+					Список сотрудников:
+				</Stack>
 				{ store.employeeList?.length || store.isNew ?
 				<List component="nav">
 					{store.employeeList.map((emp) => {
@@ -61,7 +64,7 @@ export class EmployeeList extends React.Component<StoreProps> {
 				</List>
 				:
 				<Stack className='bold-font' mt={'15px'}>
-					Добавьте нового сотрудника
+					<Button onClick={() => {store.addNewEmployeeAction()}}>Добавить нового сотрудника</Button>
 				</Stack>
 				}
 			</Paper>

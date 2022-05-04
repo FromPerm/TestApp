@@ -11,22 +11,6 @@ import { Button, Modal, Paper, Stack, Typography } from '@mui/material';
 @inject('mainStore')
 @observer
 export class MainApp extends React.Component<StoreProps> {
-	constructor(props: StoreProps) {
-		super(props);
-		this.save = this.save.bind(this);
-	}
-
-	private save(): void {
-		const store = this.props.mainStore;
-		const emp = store.editingEmployee;
-		if (!emp.fullName || !emp.position) {
-			store.enableShowErrors();
-			return;
-		}
-
-		store.saveEmployee();
-	}
-
 	render() {
 		const store = this.props.mainStore;
 		const modalState = store.modalState;
@@ -38,7 +22,7 @@ export class MainApp extends React.Component<StoreProps> {
 				</Grid>
 				<Grid item xs={12}>
 					<Stack direction="row" spacing={2} sx={{ marginBottom: '30px', justifyContent: 'center' }}>
-						<Button variant="contained" onClick={this.save} disabled={!store.hasChages}>Сохранить</Button>
+						<Button variant="contained" onClick={() => {store.saveEmployee()}} disabled={!store.hasChages}>Сохранить</Button>
 						<Button variant="contained" 
 							disabled={!store.editingEmployee || store.isNew}
 							onClick={() => {store.deleteEmployeeAction()}}>Удалить</Button> 
