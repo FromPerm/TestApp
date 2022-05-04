@@ -149,6 +149,15 @@ export class MainStore {
     }
   }
 
+  private isInvalidValidDate(dateVal: string | Date): boolean {
+    if (typeof dateVal === 'string') {
+      const date = new Date(dateVal);
+      return isNaN(date.getDate());
+    } else {
+      return isNaN(dateVal.getDate());
+    }
+  }
+
   private validateEditingEmployee(): boolean {
     const emp = this.editingEmployee;
     if (!emp || !emp.fullName || !emp.position) {
@@ -162,8 +171,7 @@ export class MainStore {
     if (emp.additionalAttributes?.find(at => 
       at.type === "дата" 
       && at.value 
-      && isNaN((at.value as Date).getDate()))
-      ) {
+      && this.isInvalidValidDate(at.value as Date))) {
       return false;
     }
 
